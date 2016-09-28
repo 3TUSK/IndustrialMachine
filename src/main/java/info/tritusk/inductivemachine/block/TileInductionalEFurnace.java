@@ -19,7 +19,11 @@ public class TileInductionalEFurnace extends TileGenericInductionMachine {
 
 			@Override
 			public RecipeOutput getOutputFor(ItemStack input, boolean adjustInput) {
-				return new RecipeOutput(new NBTTagCompound(), FurnaceRecipes.instance().getSmeltingResult(input));
+				ItemStack output = FurnaceRecipes.instance().getSmeltingResult(input);
+				if (adjustInput) {
+					//TODO: make sure the adjustInput work
+				}
+				return new RecipeOutput(new NBTTagCompound(), output);
 			}
 
 			@Override

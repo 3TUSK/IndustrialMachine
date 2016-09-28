@@ -1,16 +1,18 @@
 package info.tritusk.inductivemachine.block;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import org.xml.sax.SAXException;
 
 import ic2.api.recipe.IMachineRecipeManager;
+import ic2.api.recipe.RecipeOutput;
 import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlotOutput;
-import ic2.core.block.invslot.InvSlotProcessable;
 import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.block.invslot.InvSlotUpgrade;
 import ic2.core.block.machine.tileentity.TileEntityElectricMachine;
@@ -23,12 +25,16 @@ import ic2.core.upgrade.IUpgradableBlock;
 import ic2.core.upgrade.UpgradableProperty;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileGenericInductionMachine extends TileEntityElectricMachine implements IHasGui, IGuiValueProvider, IUpgradableBlock {
 	
 	public static final byte MAX_HEAT = 100;
-	public final InvSlotProcessable inputs;
+	
+	public static final int ENERGY_CONSUMPTION_PER_TICK = 2500;
+	
+	public final InvSlotProcessableGeneric inputs;
 	public final InvSlotOutput outputs;
 	public final InvSlotUpgrade upgrades;
 	@GuiSynced
@@ -92,7 +98,27 @@ public class TileGenericInductionMachine extends TileEntityElectricMachine imple
 	
 	@Override
 	public void updateEntityServer() {
+		if (this.energy.canUseEnergy(ENERGY_CONSUMPTION_PER_TICK)) {
+			energy.useEnergy(ENERGY_CONSUMPTION_PER_TICK);
+			this.progress += 1;
+		}
 		
+		if (progress >= 100) {
+			RecipeOutput outputs = processAll();
+			this.outputs.add(outputs.items);
+		}
+		
+		outputs.organize();
+	}
+	
+	private RecipeOutput processAll() {
+		List<ItemStack> stacks = new ArrayList<>();
+		for (int index = 0; index < 6; index++) {
+			ItemStack input = inputs.get(index);
+			assert input != null;
+			stacks.addAll(this.inputs.recipeManager.getOutputFor(input, true).items);
+		}
+		return new RecipeOutput(new NBTTagCompound(), stacks);
 	}
 	
 	@Override
