@@ -21,10 +21,10 @@ import net.minecraft.util.ResourceLocation;
 
 public enum BlockInductional implements ITeBlock {
 	
-	EFURNACE(0, TileInductionalEFurnace.class),
-	MACERATOR(1, TileInductionalMacerator.class),
-	COMPRESSOR(2, TileInductionalCompressor.class),
-	EXTRACTOR(3, TileInductionalExtractor.class);
+	EFURNACE(TileInductionalEFurnace.class),
+	MACERATOR(TileInductionalMacerator.class),
+	COMPRESSOR(TileInductionalCompressor.class),
+	EXTRACTOR(TileInductionalExtractor.class);
 	
 	public static final ResourceLocation ID = new ResourceLocation("inductivemachine", "machine");
 	public static final ResourceLocation GUI = new ResourceLocation("inductivemachine", "gui/inductive_machine.xml");
@@ -32,18 +32,16 @@ public enum BlockInductional implements ITeBlock {
 	public static final BlockInductional[] VALUES = BlockInductional.values();
 	
 	private final Class<? extends TileEntityBlock> teClass;
-	private final int meta;
 	private ITePlaceHandler handler;
 	
-	private BlockInductional(int meta, Class<? extends TileEntityBlock> teClass) {
-		this.meta = meta;
+	private BlockInductional(Class<? extends TileEntityBlock> teClass) {
 		this.teClass = teClass;
 		TileEntity.addMapping(this.teClass, "inductivemachine_" + this.name().toLowerCase(Locale.ENGLISH));
 	}
 
 	@Override
 	public int getId() {
-		return meta;
+		return this.ordinal();
 	}
 
 	@Override
