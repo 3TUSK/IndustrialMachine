@@ -1,21 +1,31 @@
 package info.tritusk.inductivemachine;
 
+import ic2.api.event.TeBlockFinalCallEvent;
+import ic2.core.block.TeBlockRegistry;
+import info.tritusk.inductivemachine.block.BlockInductional;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = "inductivemachine", name = "Inductive Machine", version = "0.0.1", useMetadata = true)
 public class InductiveMachine {
 	
+	static {
+		MinecraftForge.EVENT_BUS.register(InductiveMachine.class);
+	}
+	
 	@Mod.Instance("inductivemachine")
 	public static InductiveMachine instance;
 	
-	@SidedProxy(serverSide = "info.tritusk.inductivemachine.common.InductiveProxy", clientSide = "info.tritusk.inductivemachine.common.InductiveProxy")
-	public static InductiveProxy proxy;
+	@SubscribeEvent
+	public static void onIC2TeRegFinalCall(TeBlockFinalCallEvent event) {
+		TeBlockRegistry.addAll(BlockInductional.class, BlockInductional.ID);
+	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		proxy.postInit(event);
+		//TODO Default recipe for laziness
 	}
 
 }
