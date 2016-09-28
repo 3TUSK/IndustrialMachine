@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- todo: the arrangement -->
+<gui width="176" height="176">
+    <text y="6" align="center">%name%</text>
+
+    <slotgrid name="input" x="7" y="20" rows="2" cols="3"/>
+    <slotgrid name="output" x="114" y="20" rows="2" cols="3"/>
+
+	<gauge name="progress" x="78" y="30" style="progressarrow"/>
+	
+    <energygauge x="84" y="52"/>
+    <slot name="discharge" x="79" y="70"/>
+    
+    <environment name="game">
+    	<slotgrid name="upgrade" x="126" y="70" rows="1"/>
+   	</environment>
+    
+    <playerInventory x="7" y="93"/>
+
+</gui>

@@ -1,0 +1,6 @@
+{
+	"parent": "inductivemachine:block/machine",
+	"textures": {
+		"face": "ic2:blocks/machine/processing/basic/macerator_front"
+	}
+}

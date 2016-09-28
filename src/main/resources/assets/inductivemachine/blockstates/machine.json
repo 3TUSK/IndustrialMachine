@@ -1,0 +1,22 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"inventory": [{}],
+		"facing": {
+			"east": { "y": 90, "uvlock": true },
+			"north": {},
+			"south": { "y": 180, "uvlock": true },
+			"west": { "y": 270, "uvlock": true }
+		},
+		"type": {
+			"efurnace": { "model": "inductivemachine:efurnace" }, 
+			"efurnace_active": { "model": "inductivemachine:efurnace_active" },
+			"extractor": { "model": "inductivemachine:extractor" }, 
+			"extractor_active": { "model": "inductivemachine:extractor_active" },
+			"compressor": { "model": "inductivemachine:compressor" }, 
+			"compressor_active": { "model": "inductivemachine:compressor_active" },
+			"macerator": { "model": "inductivemachine:macerator" }, 
+			"macerator_active": { "model": "inductivemachine:macerator_active" }
+		}
+	}
+}
