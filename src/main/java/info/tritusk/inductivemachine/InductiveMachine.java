@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = "inductivemachine", name = "Inductive Machine", version = "0.0.1", useMetadata = true)
+@Mod(modid = "inductivemachine", name = "Inductive Machine", version = "0.0.1", useMetadata = true, dependencies = "required-after:IC2@[2.6.76,)")
 public class InductiveMachine {
 	
 	static {

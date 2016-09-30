@@ -20,8 +20,12 @@ public class TileInductionalEFurnace extends TileGenericInductionMachine {
 			@Override
 			public RecipeOutput getOutputFor(ItemStack input, boolean adjustInput) {
 				ItemStack output = FurnaceRecipes.instance().getSmeltingResult(input);
+				if (output == null)
+					return null;
 				if (adjustInput) {
-					//TODO: make sure the adjustInput work
+					input.stackSize--; //Assuming all furnace recipe has input stack size of 1.
+					if (input.stackSize <= 0)
+						input = null;
 				}
 				return new RecipeOutput(new NBTTagCompound(), output);
 			}

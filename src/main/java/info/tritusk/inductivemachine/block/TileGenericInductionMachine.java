@@ -116,7 +116,9 @@ public class TileGenericInductionMachine extends TileEntityElectricMachine imple
 		for (int index = 0; index < 6; index++) {
 			ItemStack input = inputs.get(index);
 			assert input != null;
-			stacks.addAll(this.inputs.recipeManager.getOutputFor(input, true).items);
+			RecipeOutput output = this.inputs.recipeManager.getOutputFor(input, true);
+			if (output != null)
+				stacks.addAll(output.items);
 		}
 		return new RecipeOutput(new NBTTagCompound(), stacks);
 	}
