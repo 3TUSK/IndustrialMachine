@@ -2,3 +2,5 @@ inductivemachine.machine.compressor=工业压缩机
 inductivemachine.machine.macerator=工业打粉机
 inductivemachine.machine.extractor=工业提取机
 inductivemachine.machine.efurnace=工业炉子
+
+itemGroup.inductive_machine=工业级机器
