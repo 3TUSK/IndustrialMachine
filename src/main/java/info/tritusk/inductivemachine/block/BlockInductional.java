@@ -12,6 +12,7 @@ import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -69,7 +70,6 @@ public enum BlockInductional implements ITeBlock {
 
 	@Override
 	public TileEntityBlock getDummyTe() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -127,6 +127,11 @@ public enum BlockInductional implements ITeBlock {
 	public void setPlaceHandler(ITePlaceHandler handler) {
 		if (this.handler != null)
 			this.handler = handler;
+	}
+
+	@Override
+	public Material getMaterial() {
+		return Material.IRON;
 	}
 
 }

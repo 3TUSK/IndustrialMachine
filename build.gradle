@@ -31,14 +31,14 @@ repositories {
 }
 
 minecraft {
-    version = "1.10.2-12.18.1.2091"
+    version = "1.10.2-12.18.2.2179"
     runDir = "run"
 
-    mappings = "snapshot_20160917"
+    mappings = "snapshot_20161111"
 }
 
 dependencies {
-    deobfCompile 'net.industrial-craft:industrialcraft-2:2.6.76-ex110:dev'
+    deobfCompile 'net.industrial-craft:industrialcraft-2:2.6.123-ex110:dev'
 }
 
 processResources {
