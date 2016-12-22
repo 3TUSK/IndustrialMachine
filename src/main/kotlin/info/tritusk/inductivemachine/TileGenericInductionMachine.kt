@@ -1,9 +1,6 @@
 package info.tritusk.inductivemachine
 
-import java.io.IOException
-import java.util.ArrayList
 import java.util.EnumSet
-import org.xml.sax.SAXException
 import ic2.api.recipe.IMachineRecipeManager
 import ic2.api.recipe.RecipeOutput
 import ic2.core.ContainerBase
@@ -64,9 +61,7 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	override fun getGui(player: EntityPlayer?, isAdmin: Boolean): GuiScreen {
 		try {
 			return DynamicGui.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
-		} catch (e: IOException) {
-			throw RuntimeException(e)
-		} catch (e: SAXException) {
+		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
 	}
@@ -74,9 +69,7 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	override fun getGuiContainer(player: EntityPlayer?): ContainerBase<*> {
 		try {
 			return DynamicContainer.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
-		} catch (e: IOException) {
-			throw RuntimeException(e)
-		} catch (e: SAXException) {
+		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
 	}
@@ -99,7 +92,6 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 		val stacks : MutableList<ItemStack> = mutableListOf()
 		for (index in 0..5) {
 			val input = inputs.get(index)
-			assert(input != null)
 			val output = this.inputs.recipeManager?.getOutputFor(input, true)
 			if (output != null)
 				stacks.addAll(output.items)
