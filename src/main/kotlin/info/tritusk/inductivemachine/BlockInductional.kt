@@ -14,7 +14,6 @@ import net.minecraft.item.EnumRarity
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
-import net.minecraft.util.ResourceLocation
 
 enum class BlockInductional private constructor(teClass: Class<out TileEntityBlock>) : ITeBlock {
 	EFURNACE(TileInductionalEFurnace::class.java),
@@ -61,7 +60,7 @@ enum class BlockInductional private constructor(teClass: Class<out TileEntityBlo
 	
 	override fun hasActive() = true
 
-	override fun hasItem() = this.teClass != null // Good stuff, I keep it on purpose
+	override fun hasItem() = true
 
 	override fun getMaterial() = Material.IRON
 	
