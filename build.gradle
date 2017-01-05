@@ -44,14 +44,7 @@ minecraft {
 }
 
 sourceSets {
-    main {
-        kotlin {
-            srcDir 'src/main/kotlin'
-        }
-        java {
-            srcDir 'src/main/java'
-        }
-    }
+    main.kotlin.srcDirs += 'src/main/kotlin'
 }
 
 dependencies {

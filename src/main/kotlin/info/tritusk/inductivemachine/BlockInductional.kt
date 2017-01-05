@@ -1,7 +1,6 @@
 package info.tritusk.inductivemachine
 
 import java.util.Locale
-import java.util.Optional
 import ic2.core.block.BlockTileEntity
 import ic2.core.block.ITeBlock
 import ic2.core.block.TileEntityBlock
@@ -15,19 +14,20 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 
-enum class BlockInductional private constructor(teClass: Class<out TileEntityBlock>) : ITeBlock {
-	EFURNACE(TileInductionalEFurnace::class.java),
-	MACERATOR(TileInductionalMacerator::class.java),
-	COMPRESSOR(TileInductionalCompressor::class.java),
-	EXTRACTOR(TileInductionalExtractor::class.java);
+enum class BlockInductional private constructor(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
+	INDUSTRIAL_EFURNACE(TileInductionalEFurnace::class.java),
+	INDUSTRIAL_MACERATOR(TileInductionalMacerator::class.java),
+	INDUSTRIAL_COMPRESSOR(TileInductionalCompressor::class.java),
+	INDUSTRIAL_EXTRACTOR(TileInductionalExtractor::class.java);
 
-	val teClass: Class<out TileEntityBlock>
-	
-	var placeHandler: TeBlock.ITePlaceHandler? = null
+	//Named so because Kotlin has getter and setter which will conflict with ITeBlock interface
+	val machienTeClass: Class<out TileEntityBlock> 
+	//Same as machienTeClass, but this one should not be null at runtime (i.e. when tileentity is loaded), so we named as this
+	var nonnullPlaceHandler: TeBlock.ITePlaceHandler? = null
 
 	init {
-		this.teClass = teClass
-		TileEntity.addMapping(this.teClass, "inductivemachine_" + this.name.toLowerCase(Locale.ENGLISH))
+		this.machienTeClass = aTeClass
+		TileEntity.addMapping(aTeClass, "inductivemachine_" + this.name.toLowerCase(Locale.ENGLISH))
 	}
 
 	override fun getId() = this.ordinal
@@ -56,7 +56,7 @@ enum class BlockInductional private constructor(teClass: Class<out TileEntityBlo
 
 	override fun getSupportedFacings() =  Util.horizontalFacings
 
-	override fun getTeClass() = this.teClass
+	override fun getTeClass() = this.machienTeClass
 	
 	override fun hasActive() = true
 
@@ -64,10 +64,10 @@ enum class BlockInductional private constructor(teClass: Class<out TileEntityBlo
 
 	override fun getMaterial() = Material.IRON
 	
-	override fun getPlaceHandler() = this.placeHandler
+	override fun getPlaceHandler() = this.nonnullPlaceHandler
 	
-	override fun setPlaceHandler(handler : TeBlock.ITePlaceHandler) {
-		this.placeHandler = Optional.of(handler).orElse(this.placeHandler)
+	override fun setPlaceHandler(handler: TeBlock.ITePlaceHandler) {
+		this.nonnullPlaceHandler = handler //There is null check
 	} 
 
 }

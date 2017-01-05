@@ -3,6 +3,7 @@ package info.tritusk.inductivemachine
 import ic2.api.recipe.IMachineRecipeManager
 import ic2.api.recipe.IRecipeInput
 import ic2.api.recipe.Recipes
+import ic2.api.recipe.RecipeInputItemStack
 import ic2.api.recipe.RecipeOutput
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.FurnaceRecipes
@@ -18,6 +19,8 @@ class TileInductionalMacerator : TileGenericInductionMachine(Recipes.macerator)
 
 object FuranceRecipeWrapper : IMachineRecipeManager {
 	
+	private val smeltingListCache : MutableList<IMachineRecipeManager.RecipeIoContainer> = mutableListOf()
+	
 	override fun addRecipe(input : IRecipeInput, metadata : NBTTagCompound, replace : Boolean, vararg outputs : ItemStack) = false
 
 	// adjustInput was discarded because it is somehow not possible
@@ -29,7 +32,17 @@ object FuranceRecipeWrapper : IMachineRecipeManager {
 			RecipeOutput(NBTTagCompound(), output);
 	}
 
-	override fun getRecipes() = throw UnsupportedOperationException("Iterating furace recipes is currently unavailable")
-
-	override fun isIterable() = false
+	// Very slow.
+	override fun getRecipes() : Iterable<IMachineRecipeManager.RecipeIoContainer> {
+		if (smeltingListCache.isEmpty()) {
+			FurnaceRecipes.instance().smeltingList.forEach {
+				smeltingListCache.add(IMachineRecipeManager.RecipeIoContainer(RecipeInputItemStack(it.key), RecipeOutput(NBTTagCompound(), it.value)))
+			}
+		}
+		return smeltingListCache.asIterable()
+	}
+	
+	override fun isIterable() = true
+	
+	fun clearCache() = smeltingListCache.clear()
 }

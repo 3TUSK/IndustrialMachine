@@ -79,7 +79,7 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	override fun updateEntityServer() {
 		if (this.energy.canUseEnergy(ENERGY_CONSUMPTION_PER_TICK.toDouble())) {
 			energy.useEnergy(ENERGY_CONSUMPTION_PER_TICK.toDouble())
-			this.progress.unaryPlus() //Wat
+			++progress
 		}
 		if (progress >= 100) {
 			val outputs = processAll()
