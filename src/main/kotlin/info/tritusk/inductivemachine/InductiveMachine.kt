@@ -20,8 +20,8 @@ object InductiveMachine {
 		try { Class.forName("net.shadowfacts.forgelin.KotlinAdapter") } catch (e: Exception) { throw IllegalStateException("Inductive Machine requires Forgelin to run.") }
 		
 		MinecraftForge.EVENT_BUS.register(object: Any() {
-			@SubscribeEvent fun onIC2TeReg(event: TeBlockReg) = TeBlockRegistry.addAll(BlockInductional::class.java, BLOCK_ID)
-		})		
+			@SubscribeEvent fun onIC2TeReg(@Suppress("unused")event: TeBlockReg) = TeBlockRegistry.addAll(BlockInductional::class.java, BLOCK_ID)
+		})
 	}
 
 }

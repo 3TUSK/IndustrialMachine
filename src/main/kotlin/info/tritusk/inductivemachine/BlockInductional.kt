@@ -21,12 +21,11 @@ enum class BlockInductional private constructor(aTeClass: Class<out TileEntityBl
 	INDUSTRIAL_EXTRACTOR(TileInductionalExtractor::class.java);
 
 	//Named so because Kotlin has getter and setter which will conflict with ITeBlock interface
-	val machienTeClass: Class<out TileEntityBlock> 
+	val machienTeClass: Class<out TileEntityBlock> = aTeClass
 	//Same as machienTeClass, but this one should not be null at runtime (i.e. when tileentity is loaded), so we named as this
 	var nonnullPlaceHandler: TeBlock.ITePlaceHandler? = null
 
 	init {
-		this.machienTeClass = aTeClass
 		TileEntity.addMapping(aTeClass, "inductivemachine_" + this.name.toLowerCase(Locale.ENGLISH))
 	}
 
@@ -34,9 +33,10 @@ enum class BlockInductional private constructor(aTeClass: Class<out TileEntityBl
 	
 	override fun getName() = this.name.toLowerCase(Locale.ENGLISH)
 
-	override fun addSubBlocks(list: MutableList<ItemStack>, blockTe: BlockTileEntity, itemTe: ItemBlockTileEntity, tab: CreativeTabs) {
-		BLOCK_VALUES.forEach { if (it.hasItem()) list.add(blockTe.getItemStack(it)) }
-	}
+	override fun addSubBlocks(list: MutableList<ItemStack>,
+			blockTe: BlockTileEntity,
+			itemTe: ItemBlockTileEntity,
+			tab: CreativeTabs) = BLOCK_VALUES.forEach { if (it.hasItem()) list.add(blockTe.getItemStack(it)) }
 
 	override fun allowWrenchRotating() = true
 

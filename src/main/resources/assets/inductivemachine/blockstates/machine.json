@@ -9,14 +9,14 @@
 			"west": { "y": 270, "uvlock": true }
 		},
 		"type": {
-			"efurnace": { "model": "inductivemachine:efurnace" }, 
-			"efurnace_active": { "model": "inductivemachine:efurnace_active" },
-			"extractor": { "model": "inductivemachine:extractor" }, 
-			"extractor_active": { "model": "inductivemachine:extractor_active" },
-			"compressor": { "model": "inductivemachine:compressor" }, 
-			"compressor_active": { "model": "inductivemachine:compressor_active" },
-			"macerator": { "model": "inductivemachine:macerator" }, 
-			"macerator_active": { "model": "inductivemachine:macerator_active" }
+			"industrial_efurnace": { "model": "inductivemachine:efurnace" }, 
+			"industrial_efurnace_active": { "model": "inductivemachine:efurnace_active" },
+			"industrial_extractor": { "model": "inductivemachine:extractor" }, 
+			"industrial_extractor_active": { "model": "inductivemachine:extractor_active" },
+			"industrial_compressor": { "model": "inductivemachine:compressor" }, 
+			"industrial_compressor_active": { "model": "inductivemachine:compressor_active" },
+			"industrial_macerator": { "model": "inductivemachine:macerator" }, 
+			"industrial_macerator_active": { "model": "inductivemachine:macerator_active" }
 		}
 	}
 }

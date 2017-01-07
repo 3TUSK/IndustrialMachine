@@ -30,18 +30,12 @@ open class TileGenericInductionMachine
  */
 protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectricMachine(50000, 2, true), IHasGui, IGuiValueProvider, IUpgradableBlock {
 	
-	val inputs: InvSlotProcessableGeneric
-	val outputs: InvSlotOutput
-	val upgrades: InvSlotUpgrade
+	val inputs: InvSlotProcessableGeneric = InvSlotProcessableGeneric(this, "input", 6, recipeManager)
+	val outputs: InvSlotOutput = InvSlotOutput(this, "output", 6)
+	val upgrades: InvSlotUpgrade = InvSlotUpgrade(this, "upgrade", 2)
 	
 	@GuiSynced protected var heat: Byte = 0
 	@GuiSynced protected var progress: Byte = 0
-
-	init {
-		this.inputs = InvSlotProcessableGeneric(this, "input", 6, recipeManager)
-		this.outputs = InvSlotOutput(this, "output", 6)
-		this.upgrades = InvSlotUpgrade(this, "upgrade", 2)
-	}
 
 	// If energy is null then something goes extremely wrong with ic2 internal
 	override fun getEnergy() = this.energy!!.getEnergy()
@@ -51,28 +45,23 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	
 	override fun getUpgradableProperties() = EnumSet.of(UpgradableProperty.RedstoneSensitive, UpgradableProperty.ItemConsuming, UpgradableProperty.ItemProducing)
 
-	override fun getGuiValue(id: String?): Double {
-		return when (id) {
-			"progress" -> progress.toDouble()
-			else -> 0.0
-		}
+	override fun getGuiValue(id: String?) = when (id) {
+		"progress" -> progress.toDouble()
+		else -> 0.0
 	}
 
-	override fun getGui(player: EntityPlayer?, isAdmin: Boolean): GuiScreen {
-		try {
-			return DynamicGui.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
+	override fun getGui(player: EntityPlayer?, isAdmin: Boolean) = try {
+			DynamicGui.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
 		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
-	}
+	
 
-	override fun getGuiContainer(player: EntityPlayer?): ContainerBase<*> {
-		try {
-			return DynamicContainer.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
+	override fun getGuiContainer(player: EntityPlayer?) = try {
+			DynamicContainer.create(this, player, GuiParser.parse(GUI, TileGenericInductionMachine::class.java))
 		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
-	}
 
 	override fun onGuiClosed(player: EntityPlayer?) = Unit
 
