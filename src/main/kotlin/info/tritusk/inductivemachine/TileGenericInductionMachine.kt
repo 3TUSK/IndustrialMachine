@@ -37,11 +37,9 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	@GuiSynced protected var heat: Byte = 0
 	@GuiSynced protected var progress: Byte = 0
 
-	// If energy is null then something goes extremely wrong with ic2 internal
-	override fun getEnergy() = this.energy!!.getEnergy()
+	override fun getEnergy() = this.energy?.getEnergy() ?: 0.0
 	
-	// Same as above
-	override fun useEnergy(amount : Double) = this.energy!!.useEnergy(amount)
+	override fun useEnergy(amount : Double) = this.energy?.useEnergy(amount) ?: false
 	
 	override fun getUpgradableProperties() = EnumSet.of(UpgradableProperty.RedstoneSensitive, UpgradableProperty.ItemConsuming, UpgradableProperty.ItemProducing)
 
@@ -94,7 +92,7 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 		this.progress = tag.getByte("progress")
 	}
 
-	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound? {
+	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound {
 		tag.setByte("heat", this.heat)
 		tag.setByte("progress", this.progress)
 		return super.writeToNBT(tag)
