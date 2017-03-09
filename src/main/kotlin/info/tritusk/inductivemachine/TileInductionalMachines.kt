@@ -18,15 +18,15 @@ class TileInductionalMacerator : TileGenericInductionMachine(Recipes.macerator)
 
 object FuranceRecipeWrapper : IMachineRecipeManager {
 	
-	override fun addRecipe(input : IRecipeInput, metadata : NBTTagCompound, replace : Boolean, vararg outputs : ItemStack) = false
+	override fun addRecipe(input: IRecipeInput, metadata: NBTTagCompound, replace: Boolean, vararg outputs: ItemStack) = false
 
 	// adjustInput was discarded because it is somehow not possible
-	override fun getOutputFor(input : ItemStack?, adjustInput : Boolean) : RecipeOutput? {
+	override fun getOutputFor(input: ItemStack?, adjustInput: Boolean): RecipeOutput? {
 		val output : ItemStack? = FurnaceRecipes.instance().getSmeltingResult(input)
 		return if (output == null)
 			null
 		else
-			RecipeOutput(NBTTagCompound(), output);
+			RecipeOutput(NBTTagCompound(), output)
 	}
 
 	override fun getRecipes() = throw UnsupportedOperationException()

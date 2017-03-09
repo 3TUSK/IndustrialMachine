@@ -22,7 +22,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 
 const val MAX_HEAT = 100
-const val ENERGY_CONSUMPTION_PER_TICK = 2500
+const val ENERGY_CONSUMPTION_PER_TICK = 2500.0
 
 open class TileGenericInductionMachine
 /**
@@ -34,10 +34,10 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	val outputs: InvSlotOutput = InvSlotOutput(this, "output", 6)
 	val upgrades: InvSlotUpgrade = InvSlotUpgrade(this, "upgrade", 2)
 	
-	@GuiSynced protected var heat: Byte = 0
-	@GuiSynced protected var progress: Byte = 0
+	@GuiSynced protected var heat: Int = 0
+	@GuiSynced protected var progress: Int = 0
 
-	override fun getEnergy() = this.energy?.getEnergy() ?: 0.0
+	override fun getEnergy() = this.energy?.energy ?: 0.0
 	
 	override fun useEnergy(amount : Double) = this.energy?.useEnergy(amount) ?: false
 	
@@ -64,38 +64,31 @@ protected constructor(recipeManager: IMachineRecipeManager?) : TileEntityElectri
 	override fun onGuiClosed(player: EntityPlayer?) = Unit
 
 	override fun updateEntityServer() {
-		if (this.energy.canUseEnergy(ENERGY_CONSUMPTION_PER_TICK.toDouble())) {
-			energy.useEnergy(ENERGY_CONSUMPTION_PER_TICK.toDouble())
+		if (this.energy.canUseEnergy(ENERGY_CONSUMPTION_PER_TICK)) {
+			energy.useEnergy(ENERGY_CONSUMPTION_PER_TICK)
 			++progress
 		}
 		if (progress >= 100) {
-			val outputs = processAll()
-			this.outputs.add(outputs!!.items)
+			this.outputs.add(processAll().items)
+			outputs.organize()
 		}
-		outputs.organize()
 	}
 
-	private fun processAll(): RecipeOutput? {
-		val stacks : MutableList<ItemStack> = mutableListOf()
-		for (index in 0..5) {
-			val input = inputs.get(index)
-			val output = this.inputs.recipeManager?.getOutputFor(input, true)
-			if (output != null)
-				stacks.addAll(output.items)
+	private fun processAll(): RecipeOutput = RecipeOutput(NBTTagCompound(), mutableListOf<ItemStack>().run {
+		inputs.forEach {
+			inputs.recipeManager?.getOutputFor(it, true)?.items?.filterNotNullTo(this)
 		}
-		return RecipeOutput(NBTTagCompound(), stacks)
-	}
+		this
+	})
 
-	override fun readFromNBT(tag: NBTTagCompound) {
-		super.readFromNBT(tag)
-		this.heat = tag.getByte("heat")
-		this.progress = tag.getByte("progress")
-	}
+	override fun readFromNBT(tag: NBTTagCompound) = super.readFromNBT(tag.also {
+		this.heat = tag.getInteger("heat")
+		this.progress = tag.getInteger("progress")
+	})
 
-	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound {
-		tag.setByte("heat", this.heat)
-		tag.setByte("progress", this.progress)
-		return super.writeToNBT(tag)
-	}
+	override fun writeToNBT(tag: NBTTagCompound) = super.writeToNBT(tag.also {
+		it.setInteger("heat", this.heat)
+		it.setInteger("progress", this.progress)
+	})
 
 }

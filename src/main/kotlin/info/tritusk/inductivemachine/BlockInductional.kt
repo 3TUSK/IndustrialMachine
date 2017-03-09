@@ -12,23 +12,17 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.EnumRarity
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
 
-enum class BlockInductional
-private constructor(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
+enum class BlockInductional(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
 	INDUSTRIAL_EFURNACE(TileInductionalEFurnace::class.java),
 	INDUSTRIAL_MACERATOR(TileInductionalMacerator::class.java),
 	INDUSTRIAL_COMPRESSOR(TileInductionalCompressor::class.java),
 	INDUSTRIAL_EXTRACTOR(TileInductionalExtractor::class.java);
 
 	//Named so because Kotlin has getter and setter which will conflict with ITeBlock interface
-	val machineTeClass = aTeClass
-	//Same as machienTeClass, but this one should not be null at runtime (i.e. when tileentity is loaded), so we named as this
+	val machineTeClass = aTeClass.also { TileEntity.addMapping(it, MODID + "_" + this.getName()) }
+	//Same as machineTeClass, but this one should not be null at runtime (i.e. when tileentity is loaded), so we named as this
 	var nonnullPlaceHandler: TeBlock.ITePlaceHandler? = null
-
-	init {
-		TileEntity.addMapping(aTeClass, MODID + "_" + this.name.toLowerCase(Locale.ENGLISH))
-	}
 
 	override fun getId() = this.ordinal
 	
@@ -55,7 +49,7 @@ private constructor(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
 	
 	override fun getRarity() = EnumRarity.UNCOMMON
 
-	override fun getSupportedFacings() =  Util.horizontalFacings
+	override fun getSupportedFacings() = Util.horizontalFacings
 
 	override fun getTeClass() = this.machineTeClass
 	
@@ -69,6 +63,8 @@ private constructor(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
 	
 	override fun setPlaceHandler(handler: TeBlock.ITePlaceHandler) {
 		this.nonnullPlaceHandler = handler //There is null check
-	} 
+	}
+
+	override fun isTransparent() = false
 
 }

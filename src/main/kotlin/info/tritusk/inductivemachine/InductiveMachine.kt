@@ -16,13 +16,11 @@ const val NAME = "Inductive Machine"
 @JvmField val BLOCK_VALUES = BlockInductional.values() 
 
 @Mod(modid = MODID, name = NAME, version = "0.0.1", useMetadata = true,
-	dependencies = "required-after:IC2@[2.6.134,)", modLanguage = "kotlin",
+	dependencies = "required-after:IC2@[2.6.134,);required-after:forgelin", modLanguage = "kotlin",
 	modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 object InductiveMachine {
 
 	init {
-		try { Class.forName("net.shadowfacts.forgelin.KotlinAdapter") } catch (e: Exception) { throw IllegalStateException("Inductive Machine requires Forgelin to run.") }
-		
 		MinecraftForge.EVENT_BUS.register(object: Any() {
 			@SubscribeEvent fun onIC2TeReg(@Suppress("UNUSED_PARAMETER") event: TeBlockReg) = TeBlockRegistry.addAll(BlockInductional::class.java, BLOCK_ID)
 		})
