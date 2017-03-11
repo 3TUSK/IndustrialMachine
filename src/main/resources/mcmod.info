@@ -6,11 +6,12 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
-  "updateUrl": "",
+  "updateJSON": "",
   "authorList": ["3TUSK"],
-  "credits": "IC2 team",
+  "credits": "IC2 team & all previous contributors of FrogCraft",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "useDependencyInformation": true,
+  "requiredMods": ["IC2", "forgelin"]
 }
 ]

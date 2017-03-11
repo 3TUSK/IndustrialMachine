@@ -13,25 +13,24 @@ import net.minecraft.item.EnumRarity
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 
-enum class BlockInductional(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
+enum class BlockInductional(val theTeClass: Class<out TileEntityBlock>) : ITeBlock {
 	INDUSTRIAL_EFURNACE(TileInductionalEFurnace::class.java),
 	INDUSTRIAL_MACERATOR(TileInductionalMacerator::class.java),
 	INDUSTRIAL_COMPRESSOR(TileInductionalCompressor::class.java),
 	INDUSTRIAL_EXTRACTOR(TileInductionalExtractor::class.java);
 
+	init { TileEntity.addMapping(theTeClass, "inductivemachine_" + this.getName()) }
+
 	//Named so because Kotlin has getter and setter which will conflict with ITeBlock interface
-	val machineTeClass = aTeClass.also { TileEntity.addMapping(it, MODID + "_" + this.getName()) }
-	//Same as machineTeClass, but this one should not be null at runtime (i.e. when tileentity is loaded), so we named as this
-	var nonnullPlaceHandler: TeBlock.ITePlaceHandler? = null
+	var thePlaceHandler: TeBlock.ITePlaceHandler? = null
 
 	override fun getId() = this.ordinal
 	
 	override fun getName() = this.name.toLowerCase(Locale.ENGLISH)
 
-	override fun addSubBlocks(list: MutableList<ItemStack>,
-			blockTe: BlockTileEntity,
-			itemTe: ItemBlockTileEntity,
-			tab: CreativeTabs) = BLOCK_VALUES.forEach { list.add(blockTe.getItemStack(it)) }
+	override fun addSubBlocks(list: MutableList<ItemStack>, blockTe: BlockTileEntity,
+			itemTe: ItemBlockTileEntity, tab: CreativeTabs) =
+			BlockInductional.values().forEach { list.add(blockTe.getItemStack(it)) }
 
 	override fun allowWrenchRotating() = true
 
@@ -45,13 +44,13 @@ enum class BlockInductional(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
 	
 	override fun getHarvestTool() = TeBlock.HarvestTool.None
 	
-	override fun getIdentifier() = BLOCK_ID
+	override fun getIdentifier() = InductiveMachine.BLOCK_ID
 	
 	override fun getRarity() = EnumRarity.UNCOMMON
 
 	override fun getSupportedFacings() = Util.horizontalFacings
 
-	override fun getTeClass() = this.machineTeClass
+	override fun getTeClass() = this.theTeClass
 	
 	override fun hasActive() = true
 
@@ -59,10 +58,10 @@ enum class BlockInductional(aTeClass: Class<out TileEntityBlock>) : ITeBlock {
 
 	override fun getMaterial() = Material.IRON
 	
-	override fun getPlaceHandler() = this.nonnullPlaceHandler
+	override fun getPlaceHandler() = this.thePlaceHandler
 	
-	override fun setPlaceHandler(handler: TeBlock.ITePlaceHandler) {
-		this.nonnullPlaceHandler = handler //There is null check
+	override fun setPlaceHandler(handler: TeBlock.ITePlaceHandler?) {
+		this.thePlaceHandler = handler
 	}
 
 	override fun isTransparent() = false

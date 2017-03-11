@@ -48,7 +48,7 @@ sourceSets {
 }
 
 dependencies {
-    deobfCompile 'net.industrial-craft:industrialcraft-2:2.6.170-ex110:dev'
+    compile 'net.industrial-craft:industrialcraft-2:2.6.170-ex110:dev'
     
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.1.0'
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-runtime', version: '1.1.0'
@@ -62,8 +62,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
+
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
