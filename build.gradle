@@ -34,6 +34,10 @@ repositories {
         name "shadowfacts"
         url "http://mvn.rx14.co.uk/shadowfacts/"
     }
+    maven {
+        name = "curseforge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 minecraft {
@@ -54,6 +58,7 @@ dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-runtime', version: '1.1.0'
     
     runtime group: 'net.shadowfacts', name: 'Forgelin', version: '1.4.0'
+    runtime group: 'frogcraft-rebirth', name: 'FrogCraft-Rebirth', version: '0.11.0', classifier: 'dev'
 }
 
 processResources {
